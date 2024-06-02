@@ -24,6 +24,28 @@ langchain_tracing_v2 = os.getenv('LANGCHAIN_TRACING_V2')
 
 ROOT_DIR = os.getcwd()
 
+
+@tool
+def check_format(file_path: str) -> str:
+    """Checks the format of the file at the given path."""
+    return subprocess.run(["prettier", "--check", file_path], check=True)
+
+@tool
+def create_readme(content: str) -> str:
+    """Creates a new README.md file in the root directory."""
+    return create_file("README.md", content, file_type="md")
+
+
+@tool
+def create_unittest(content: str) -> str:
+    """Creates a new unittest file in the root directory."""
+    return create_file("unittest.py", content, file_type="py")
+
+@tool
+def execute_unittest() -> str:
+    """Executes the unittest file in the root directory."""
+    return subprocess.run(["python", "unittest.py"], check=True)
+
 @tool
 def create_react_app_with_vite() -> str:
     """Creates a new React application using Vite in the 'app' directory."""
@@ -100,6 +122,10 @@ tools = [
     find_file, 
     create_file, 
     update_file,
+    create_readme,
+    create_unittest,
+    execute_unittest,
+    check_format
     # Add more tools if needed
 ]
 
